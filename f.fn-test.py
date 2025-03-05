@@ -1,11 +1,13 @@
 import ffn
+import numpy as np
+import matplotlib.pyplot as plt # 畫出累積報酬走勢圖（需要 matplotlib）
 
 # 1. 抓取股票資料
 #   - 這裡以 AAPL (蘋果) 和 MSFT (微軟) 為例，時間範圍是 2020-01-01 到 2023-01-01
 data = ffn.get(
     tickers='AAPL,MSFT',        # 股票代號（用逗號分隔可一次抓多支）
-    start='2020-01-01',         # 開始日期 (YYYY-MM-DD)
-    end='2023-01-01'            # 結束日期 (YYYY-MM-DD)
+    start='2016-01-01',         # 開始日期 (YYYY-MM-DD)
+    end='2025-01-01'            # 結束日期 (YYYY-MM-DD)
 )
 
 # 2. 查看前幾筆資料
@@ -21,9 +23,6 @@ stats.display()                 # 在終端機列印結果
 cumulative_returns = data.to_log_returns().dropna().cumsum().apply(np.exp)
 print("\n=== 累積報酬 (log return 累積) ===")
 print(cumulative_returns.tail())
-
-# 5. 畫出累積報酬走勢圖（需要 matplotlib）
-import matplotlib.pyplot as plt
 
 cumulative_returns.plot(figsize=(10, 6))
 plt.title("AAPL vs MSFT - Cumulative Returns (2020-01-01 to 2023-01-01)")
